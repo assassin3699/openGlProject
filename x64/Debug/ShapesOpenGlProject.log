@@ -1,0 +1,17 @@
+﻿  main.cpp
+C:\Users\sanja\Downloads\ShapesOpenGlProject\main.cpp(135,19): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sanja\Downloads\ShapesOpenGlProject\main.cpp(138,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+  Mesh.cpp
+  Shader.cpp
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Shader.cpp(122,24): warning C4267: '=': conversion from 'size_t' to 'GLint', possible loss of data
+  Texture.cpp
+  Window.cpp
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(138,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(139,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(142,28): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(143,40): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(145,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(146,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+  Generating Code...
+C:\Users\sanja\Downloads\ShapesOpenGlProject\Window.cpp(84): warning C4715: 'Window::Initialise': not all control paths return a value
+  ShapesOpenGlProject.vcxproj -> C:\Users\sanja\Downloads\ShapesOpenGlProject\x64\Debug\ShapesOpenGlProject.exe
