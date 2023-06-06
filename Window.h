@@ -17,7 +17,7 @@ public:
 	bool* getsKeys() { return keys; }
 	GLfloat getXChange();
 	GLfloat getYChange();
-
+	GLfloat getFOV();
 	void swapBuffers() { glfwSwapBuffers(mainWindow); }
 
 	~Window();
@@ -33,11 +33,13 @@ protected:
 	GLfloat lastY;
 	GLfloat xChange;
 	GLfloat yChange;
+	float fov;
 	bool mouseFirstMoved;
 
 	void createCallbacks();
 	static void handleKeys(GLFWwindow* window, int key, int code, int action, int mode);
 	static void handleMouse(GLFWwindow* window, double xPos, double yPos);
+	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 };
 
 

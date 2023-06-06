@@ -19,13 +19,14 @@ using namespace glm;
 #include "Shader.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Camera.h"
 
 Texture textureOne;
 Texture textureTwo;
 
 Window mainWindow;
 
-
+Camera camera;
 
 float vertices[] = {
 
@@ -74,7 +75,18 @@ float vertices[] = {
 unsigned int indices[] = {
 	0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35
 };
-
+glm::vec3 cubePositions[] = {
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f)
+};
 //Shader Code
 
 unsigned int vertexShader;
@@ -137,10 +149,13 @@ int main() {
 
 	mainWindow = Window(800, 600);
 	mainWindow.Initialise();
-	 
+	
+	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.5f);
+
 	CreateShaders();
-    CreateObjects();
-	CreateObjects();
+	for (int i = 0; i < 10; i++) {
+		CreateObjects();
+	}
 	vertexColor = vec4(0.5, 0.0, 0.0, 1.0);
 
 	textureOne = Texture("Textures/container.jpg");
@@ -155,9 +170,8 @@ int main() {
 	shaderList[0].SetInt("texturetwo", 1);
 
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
-
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	glm::mat4 view(1.0f);
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 	GLfloat deltaTime;
 	GLfloat lastTime = glfwGetTime();
@@ -177,7 +191,12 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 		glClear(GL_COLOR_BUFFER_BIT);
-
+	
+		camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		
+		proj = glm::perspective(glm::radians(mainWindow.getFOV()), (float)800 / (float)600, 0.1f, 100.0f);
+		view = camera.calculateViewMatrix();
 		shaderList[0].UseShader();
 		shaderList[0].SetMatFour("viewSpace", view);
 		shaderList[0].SetMatFour("projectionSpace", proj);
@@ -207,16 +226,23 @@ int main() {
 		shaderList[0].SetFloat("mixValue", currentScrollerValue);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		mesh[0]->RenderMesh();
+		//mesh[0]->RenderMesh();
+		for (int i = 0; i < 10; i++) {
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[i]);
+			float angle = 20.0f * i;
+			if ((i + 1) % 3 == 0 || i == 0) {
+				GLfloat t = glfwGetTime();
+				model = glm::rotate(model, t, glm::vec3(0.0, 0.0, 1.0));
+			}
+			else
+			{
+				model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			}
+			shaderList[0].SetMatFour("modelMatrix", model);
+			mesh[i]->RenderMesh();
+		}
 
-		model = glm::mat4 (1.0f);
-		model = glm::translate(model, glm::vec3(-0.5f, 0.5f, 0.0f));
-		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		GLfloat t = glm::sin(glfwGetTime());
-		model = glm::scale(model, glm::vec3(t, t, t));
-		shaderList[0].SetMatFour("modelMatrix", model);
-		
-		mesh[1]->RenderMesh();
 		glfwPollEvents();
 		glUseProgram(0);
 		

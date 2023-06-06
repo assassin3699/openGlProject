@@ -11,6 +11,7 @@ Window::Window()
 
 	xChange = 0.0f;
 	yChange = 0.0f;
+	fov = 45.0f;
 }
 
 Window::Window(GLint windowWidth, GLint windowHeight)
@@ -24,6 +25,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 
 	xChange = 0.0f;
 	yChange = 0.0f;
+	fov = 45.0f;
 }
 
 int Window::Initialise()
@@ -97,6 +99,11 @@ GLfloat Window::getYChange()
 	return theChange;
 }
 
+GLfloat Window::getFOV()
+{
+	return fov;
+}
+
 Window::~Window()
 {
 	glfwDestroyWindow(mainWindow);
@@ -107,6 +114,8 @@ void Window::createCallbacks()
 {
 	glfwSetKeyCallback(mainWindow, handleKeys);
 	glfwSetCursorPosCallback(mainWindow, handleMouse);
+	glfwSetScrollCallback(mainWindow, scroll_callback);
+
 }
 
 void Window::handleKeys(GLFWwindow* window, int key, int code, int action, int mode)
@@ -144,5 +153,15 @@ void Window::handleMouse(GLFWwindow* window, double xPos, double yPos)
 
 	theWindow->lastX = xPos;
 	theWindow->lastY = yPos;
+}
+
+void Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	theWindow->fov -= (float)yoffset;
+	if (theWindow->fov < 1.0f)
+		theWindow->fov = 1.0f;
+	if (theWindow->fov > 45.0f)
+		theWindow->fov = 45.0f;
 }
  
