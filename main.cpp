@@ -29,17 +29,50 @@ Window mainWindow;
 
 float vertices[] = {
 
-	 -0.5f,  -0.5f,  0.0f,       0.0f, 0.0f, 
-	 -0.5f,   0.5f,  0.0f,       0.0f, 1.0f,
-	  0.5f,   0.5f,  0.0f,       1.0f, 1.0f,
-	  0.5f,  -0.5f,  0.0f,		 1.0f, 0.0f,
-	 -0.5f,  -0.5f, -0.5f,       0.0f, 0.0f,
-	 -0.5f,   0.5f, -0.5f,       0.0f, 1.0f,
-	  0.5f,   0.5f, -0.5f,       1.0f, 1.0f,
-	  0.5f,  -0.5f, -0.5f,		 1.0f, 0.0f
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 unsigned int indices[] = {
-	0 , 1 , 2 , 0 , 2 , 3   
+	0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35
 };
 
 //Shader Code
@@ -90,7 +123,7 @@ const char* fragmentShaderSourceTwo = "#version 330 core\n"
 
 void CreateObjects() {
     Mesh* obj1 = new Mesh();
-    obj1->CreateMesh(vertices, indices, 20, 6);
+    obj1->CreateMesh(vertices, indices, 180, 36);
     mesh.push_back(obj1);
 }
 
@@ -120,11 +153,6 @@ int main() {
 	shaderList[0].UseShader();
 	textureTwo.LoadPNGTexture();
 	shaderList[0].SetInt("texturetwo", 1);
-
-
-
-
-
 
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 
@@ -175,17 +203,23 @@ int main() {
 				currentScrollerValue = 0;
 			}
 		}
+
 		shaderList[0].SetFloat("mixValue", currentScrollerValue);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		mesh[0]->RenderMesh();
 
 		model = glm::mat4 (1.0f);
 		model = glm::translate(model, glm::vec3(-0.5f, 0.5f, 0.0f));
 		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(glm :: sin(glfwGetTime()), glm::sin(glfwGetTime()), 1));
+		GLfloat t = glm::sin(glfwGetTime());
+		model = glm::scale(model, glm::vec3(t, t, t));
 		shaderList[0].SetMatFour("modelMatrix", model);
+		
 		mesh[1]->RenderMesh();
 		glfwPollEvents();
 		glUseProgram(0);
+		
 		mainWindow.swapBuffers();
 	}
 }
