@@ -21,6 +21,7 @@ public :
 	void SetBool(const char* id, GLboolean value);
 	void SetVecFour(const char* id, glm::vec4 value);
 	void SetMatFour(const char* id, glm::mat4 value);
+	void SetVecThree(const char* id, glm::vec3 value);
 	void GetFloat(const char* id, GLfloat* value);
 private:
 	GLuint ShaderID;

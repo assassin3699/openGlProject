@@ -106,6 +106,18 @@ static const char* vShader = "Shaders/VertexShader.vert";
 // Fragment Shader
 static const char* fShader = "Shaders/FragmentShader.frag";
 
+// Vertex Shader
+static const char* Colour_vShader = "Shaders/1.colors.vert";
+
+// Fragment Shader
+static const char* Colour_fShader = "Shaders/1.colors.frag";
+
+// Vertex Shader
+static const char* LightCube_vShader = "Shaders/1.light_cube.vert";
+
+// Fragment Shader
+static const char* LightCube_fShader = "Shaders/1.light_cube.frag";
+
 const char* vertexShaderSourceOne = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
 "void main()\n"
@@ -152,22 +164,33 @@ int main() {
 	
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.5f);
 
-	CreateShaders();
-	for (int i = 0; i < 10; i++) {
+	//CreateShaders();
+
+	Shader* obj1 = new Shader();
+	obj1->CreatFromFile(LightCube_vShader, LightCube_fShader);
+	shaderList.push_back(*obj1);
+
+
+	Shader* obj2 = new Shader();
+	obj2->CreatFromFile(LightCube_vShader, LightCube_fShader);
+	shaderList.push_back(*obj2);
+
+
+	for (int i = 0; i < 2; i++) {
 		CreateObjects();
 	}
 	vertexColor = vec4(0.5, 0.0, 0.0, 1.0);
 
-	textureOne = Texture("Textures/container.jpg");
-	textureOne.LoadTexture();
-	shaderList[0].UseShader();
+	//textureOne = Texture("Textures/container.jpg");
+	//textureOne.LoadTexture();
 
-	shaderList[0].SetInt("textureone", 0);
 
-	textureTwo = Texture("Textures/awesomeface.png");
-	shaderList[0].UseShader();
-	textureTwo.LoadPNGTexture();
-	shaderList[0].SetInt("texturetwo", 1);
+	//shaderList[0].SetInt("textureone", 0);
+
+	//textureTwo = Texture("Textures/awesomeface.png");
+	//shaderList[0].UseShader();
+	//textureTwo.LoadPNGTexture();
+	//shaderList[0].SetInt("texturetwo", 1);
 
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 	glm::mat4 view(1.0f);
@@ -183,65 +206,80 @@ int main() {
 
 
 		glm::mat4 model(1.0f);
-
-		model = glm::translate(model, glm::vec3(0.5f, -0.5f, 0.0f));
-		model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+		model = glm::translate(model, lightPos);
+		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-		glClear(GL_COLOR_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		
 		proj = glm::perspective(glm::radians(mainWindow.getFOV()), (float)800 / (float)600, 0.1f, 100.0f);
 		view = camera.calculateViewMatrix();
-		shaderList[0].UseShader();
-		shaderList[0].SetMatFour("viewSpace", view);
-		shaderList[0].SetMatFour("projectionSpace", proj);
-		//shaderList[0].SetVecFour("ourColor", vertexColor);
-		shaderList[0].SetMatFour("modelMatrix", model);
-		glActiveTexture(GL_TEXTURE0);
-		textureOne.UseTexture();
-		glActiveTexture(GL_TEXTURE1);
-		textureTwo.UseTexture();
+		shaderList[1].UseShader();
+		shaderList[1].SetMatFour("view", view);
+		shaderList[1].SetMatFour("projection", proj);
+		shaderList[1].SetMatFour("model", model);
+		mesh[0]->RenderMesh();
 
-		bool* keys = mainWindow.getsKeys();
-		GLfloat currentScrollerValue =1;
-		shaderList[0].GetFloat( "mixValue", &currentScrollerValue);
-		if (keys[GLFW_KEY_UP] == true) {
-			currentScrollerValue += deltaTime;
-			if (currentScrollerValue > 1) {
-				currentScrollerValue = 1;
-			}
-		}
-		if (keys[GLFW_KEY_DOWN] == true) {
-			currentScrollerValue -= deltaTime;
-			if (currentScrollerValue < 0) {
-				currentScrollerValue = 0;
-			}
-		}
-
-		shaderList[0].SetFloat("mixValue", currentScrollerValue);
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//model = glm::mat4(1.0f);
+		//shaderList[0].UseShader();
+		//shaderList[0].SetMatFour("view", view);
+		//shaderList[0].SetMatFour("projection", proj);
+		//shaderList[0].SetMatFour("model", model);
+		//glm::vec4 objectColour = glm::vec4(1.0f, 0.5f, 0.31f, 1.0f);
+		//glm::vec4 lightColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		//shaderList[0].SetVecFour("objectColor", objectColour);
+		//shaderList[0].SetVecFour("lightColor", lightColour);
 		//mesh[0]->RenderMesh();
-		for (int i = 0; i < 10; i++) {
-			model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			float angle = 20.0f * i;
-			if ((i + 1) % 3 == 0 || i == 0) {
-				GLfloat t = glfwGetTime();
-				model = glm::rotate(model, t, glm::vec3(0.0, 0.0, 1.0));
-			}
-			else
-			{
-				model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			}
-			shaderList[0].SetMatFour("modelMatrix", model);
-			mesh[i]->RenderMesh();
-		}
+
+		//shaderList[0].SetMatFour("viewSpace", view);
+		//shaderList[0].SetMatFour("projectionSpace", proj);
+		//shaderList[0].SetVecFour("ourColor", vertexColor);
+		//shaderList[0].SetMatFour("modelMatrix", model);
+		//glActiveTexture(GL_TEXTURE0);
+		//textureOne.UseTexture();
+		//glActiveTexture(GL_TEXTURE1);
+		//textureTwo.UseTexture();
+
+		//bool* keys = mainWindow.getsKeys();
+		//GLfloat currentScrollerValue =1;
+		//shaderList[0].GetFloat( "mixValue", &currentScrollerValue);
+		//if (keys[GLFW_KEY_UP] == true) {
+		//	currentScrollerValue += deltaTime;
+		//	if (currentScrollerValue > 1) {
+		//		currentScrollerValue = 1;
+		//	}
+		//}
+		//if (keys[GLFW_KEY_DOWN] == true) {
+		//	currentScrollerValue -= deltaTime;
+		//	if (currentScrollerValue < 0) {
+		//		currentScrollerValue = 0;
+		//	}
+		//}
+
+		//shaderList[0].SetFloat("mixValue", currentScrollerValue);
+
+		//mesh[0]->RenderMesh();
+		//for (int i = 0; i < 10; i++) {
+		//	model = glm::mat4(1.0f);
+		//	model = glm::translate(model, cubePositions[i]);
+		//	float angle = 20.0f * i;
+		//	if ((i + 1) % 3 == 0 || i == 0) {
+		//		GLfloat t = glfwGetTime();
+		//		model = glm::rotate(model, t, glm::vec3(0.0, 0.0, 1.0));
+		//	}
+		//	else
+		//	{
+		//		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+		//	}
+		//	shaderList[0].SetMatFour("modelMatrix", model);
+		//	mesh[i]->RenderMesh();
+		//}
 
 		glfwPollEvents();
 		glUseProgram(0);

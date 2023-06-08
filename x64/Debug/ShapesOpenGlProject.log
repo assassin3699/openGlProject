@@ -1,9 +1,4 @@
-﻿  Window.cpp
-C:\Users\New\source\repos\openGlProject\Window.cpp(147,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\Window.cpp(148,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\Window.cpp(151,28): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\Window.cpp(152,40): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\Window.cpp(154,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\Window.cpp(155,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\Window.cpp(86): warning C4715: 'Window::Initialise': not all control paths return a value
+﻿  main.cpp
+C:\Users\New\source\repos\openGlProject\main.cpp(200,19): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\New\source\repos\openGlProject\main.cpp(203,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
   ShapesOpenGlProject.vcxproj -> C:\Users\New\source\repos\openGlProject\x64\Debug\ShapesOpenGlProject.exe

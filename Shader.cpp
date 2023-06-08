@@ -82,6 +82,10 @@ void Shader::SetVecFour(const char* id, glm::vec4 value)
 {
 	glUniform4f(glGetUniformLocation(ShaderID, id), value.x,value.y,value.z,value.w);
 }
+void Shader::SetVecThree(const char* id, glm::vec3 value)
+{
+	glUniform3f(glGetUniformLocation(ShaderID, id), value.x, value.y, value.z);
+}
 
 void Shader::SetMatFour(const char* id, glm::mat4 value)
 {
