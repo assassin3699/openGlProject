@@ -1,5 +1,5 @@
 #include "Shader.h"
-
+#include <iostream>
 Shader::Shader()
 {
 	ShaderID = 0;
@@ -7,11 +7,11 @@ Shader::Shader()
 
 Shader::~Shader()
 {
-	if (ShaderID != 0)
-	{
-		glDeleteProgram(ShaderID);
-		ShaderID = 0;
-	}
+	//if (ShaderID != 0)
+	//{
+	//	glDeleteProgram(ShaderID);
+	//	ShaderID = 0;
+	//}
 }
 
 void Shader::CreatFromFile(const char* vertexCodeLocation, const char* fragmentCodeLocation)
@@ -54,14 +54,14 @@ void Shader::UseShader()
 	glUseProgram(ShaderID);
 }
 
-void Shader::ClearShader()
-{
-	if (ShaderID != 0)
-	{
-		glDeleteProgram(ShaderID);
-		ShaderID = 0;
-	}
-}
+//void Shader::ClearShader()
+//{
+//	if (ShaderID != 0)
+//	{
+//		glDeleteProgram(ShaderID);
+//		ShaderID = 0;
+//	}
+//}
 
 void Shader::SetInt(const char* id, GLint value)
 {
@@ -135,4 +135,5 @@ void Shader::AddShader(GLuint programId, const char* theCode, GLenum shaderType)
 		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 	glAttachShader(programId, theShader);
+	glDeleteShader(theShader);
 }

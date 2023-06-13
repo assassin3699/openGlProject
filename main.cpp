@@ -29,48 +29,47 @@ Window mainWindow;
 Camera camera;
 
 float vertices[] = {
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 unsigned int indices[] = {
 	0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35
@@ -153,7 +152,7 @@ void CreateObjects() {
 
 void CreateShaders() {
 	Shader* obj1 = new Shader();
-	obj1->CreatFromFile(vShader, fShader);
+	obj1->CreatFromFile(Colour_vShader, Colour_vShader);
 	shaderList.push_back(*obj1);
 }
 // Include standard headers
@@ -167,7 +166,7 @@ int main() {
 	//CreateShaders();
 
 	Shader* obj1 = new Shader();
-	obj1->CreatFromFile(LightCube_vShader, LightCube_fShader);
+	obj1->CreatFromFile(Colour_vShader, Colour_fShader);
 	shaderList.push_back(*obj1);
 
 
@@ -206,8 +205,8 @@ int main() {
 
 
 		glm::mat4 model(1.0f);
-		glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-		model = glm::translate(model, lightPos);
+		float time = 1;
+		glm::vec3 lightPos(5.0f * sin(time), 0.0f , 5.0f * cos(time));
 		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
 
@@ -220,22 +219,40 @@ int main() {
 		
 		proj = glm::perspective(glm::radians(mainWindow.getFOV()), (float)800 / (float)600, 0.1f, 100.0f);
 		view = camera.calculateViewMatrix();
+		shaderList[0].UseShader();
+		shaderList[0].SetMatFour("view", view);
+		shaderList[0].SetMatFour("projection", proj);
+		shaderList[0].SetMatFour("model", model);
+		glm::vec3 objectColour = glm::vec3(1.0f, 0.5f, 0.31f);
+		glm::vec3 lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
+		lightColour.x = sin(glfwGetTime() * 2.0f);
+		lightColour.y = sin(glfwGetTime() * 0.7f);
+		lightColour.z = sin(glfwGetTime() * 1.3f);
+		shaderList[0].SetVecThree("objectColor", objectColour);
+		shaderList[0].SetVecThree("lightColor", lightColour);
+		shaderList[0].SetVecThree("lightPos", lightPos);
+		shaderList[0].SetVecThree("viewPos", camera.position);
+		shaderList[0].SetVecThree("material.ambient", glm:: vec3(1.0f, 0.5f, 0.31f));
+		shaderList[0].SetVecThree("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+		shaderList[0].SetVecThree("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+
+
+		glm::vec3 diffuseColor = lightColour * glm::vec3(0.5f);
+		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+		shaderList[0].SetVecThree("light.ambient", ambientColor);
+		shaderList[0].SetVecThree("light.diffuse", diffuseColor); // darken diffuse light a bit
+		shaderList[0].SetVecThree("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+		shaderList[0].SetFloat("material.shininess", 32.0f);
+		mesh[0]->RenderMesh();
+
+		model = glm::mat4(1.0f);
+
+		model = glm::translate(model, lightPos);
 		shaderList[1].UseShader();
 		shaderList[1].SetMatFour("view", view);
 		shaderList[1].SetMatFour("projection", proj);
 		shaderList[1].SetMatFour("model", model);
-		mesh[0]->RenderMesh();
-
-		//model = glm::mat4(1.0f);
-		//shaderList[0].UseShader();
-		//shaderList[0].SetMatFour("view", view);
-		//shaderList[0].SetMatFour("projection", proj);
-		//shaderList[0].SetMatFour("model", model);
-		//glm::vec4 objectColour = glm::vec4(1.0f, 0.5f, 0.31f, 1.0f);
-		//glm::vec4 lightColour = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-		//shaderList[0].SetVecFour("objectColor", objectColour);
-		//shaderList[0].SetVecFour("lightColor", lightColour);
-		//mesh[0]->RenderMesh();
+		mesh[1]->RenderMesh();
 
 		//shaderList[0].SetMatFour("viewSpace", view);
 		//shaderList[0].SetMatFour("projectionSpace", proj);

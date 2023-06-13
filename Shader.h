@@ -15,7 +15,7 @@ public :
 	void CreatFromString(const char* vertecCodeString, const char* fragmentCodeString);
 	std::string ReadFile(const char* fileLocation);
 	void UseShader();
-	void ClearShader();
+	//void ClearShader();
 	void SetInt(const char* id, GLint value);
 	void SetFloat(const char* id, GLfloat value);
 	void SetBool(const char* id, GLboolean value);
@@ -24,7 +24,7 @@ public :
 	void SetVecThree(const char* id, glm::vec3 value);
 	void GetFloat(const char* id, GLfloat* value);
 private:
-	GLuint ShaderID;
+	int ShaderID;
 	void CompileShader(const char* vertexCode, const char* fragmentCode);
 	void AddShader(GLuint programId, const char* theCode, GLenum shaderType);
 };
