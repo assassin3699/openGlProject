@@ -23,53 +23,55 @@ using namespace glm;
 
 Texture textureOne;
 Texture textureTwo;
+Texture textureThree;
 
 Window mainWindow;
 
 Camera camera;
 
 float vertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
+
 };
 unsigned int indices[] = {
 	0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35
@@ -146,7 +148,7 @@ const char* fragmentShaderSourceTwo = "#version 330 core\n"
 
 void CreateObjects() {
     Mesh* obj1 = new Mesh();
-    obj1->CreateMesh(vertices, indices, 180, 36);
+    obj1->CreateMesh(vertices, indices, 288, 36);
     mesh.push_back(obj1);
 }
 
@@ -180,16 +182,21 @@ int main() {
 	}
 	vertexColor = vec4(0.5, 0.0, 0.0, 1.0);
 
-	//textureOne = Texture("Textures/container.jpg");
-	//textureOne.LoadTexture();
+	textureOne = Texture("Textures/container2.png");
+	textureOne.LoadPNGTexture();
 
 
-	//shaderList[0].SetInt("textureone", 0);
+	shaderList[0].SetInt("material.diffuseTexture", 0);
 
-	//textureTwo = Texture("Textures/awesomeface.png");
-	//shaderList[0].UseShader();
-	//textureTwo.LoadPNGTexture();
-	//shaderList[0].SetInt("texturetwo", 1);
+	textureTwo = Texture("Textures/container2_specular.png");
+	shaderList[0].UseShader();
+	textureTwo.LoadPNGTexture();
+	shaderList[0].SetInt("material.specTexture", 1);
+
+	textureThree = Texture("Textures/matrix.jpg");
+	shaderList[0].UseShader();
+	textureThree.LoadTexture();
+	shaderList[0].SetInt("material.emitTexture", 2);
 
 	glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 	glm::mat4 view(1.0f);
@@ -197,6 +204,7 @@ int main() {
 
 	GLfloat deltaTime;
 	GLfloat lastTime = glfwGetTime();
+	float scorllTime = 0;
 	while (!mainWindow.getShouldClose()) {
 
 		GLfloat now = glfwGetTime(); // SDL_GetPerformanceCounter();
@@ -205,8 +213,8 @@ int main() {
 
 
 		glm::mat4 model(1.0f);
-		float time = 1;
-		glm::vec3 lightPos(5.0f * sin(time), 0.0f , 5.0f * cos(time));
+		float time = (float)glfwGetTime();
+		glm::vec3 lightPos(1.2f,glm :: sin(time), 2.0f);
 		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
 
@@ -219,40 +227,54 @@ int main() {
 		
 		proj = glm::perspective(glm::radians(mainWindow.getFOV()), (float)800 / (float)600, 0.1f, 100.0f);
 		view = camera.calculateViewMatrix();
-		shaderList[0].UseShader();
-		shaderList[0].SetMatFour("view", view);
-		shaderList[0].SetMatFour("projection", proj);
-		shaderList[0].SetMatFour("model", model);
-		glm::vec3 objectColour = glm::vec3(1.0f, 0.5f, 0.31f);
+		glm::vec3 objectColour = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::vec3 lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
-		lightColour.x = sin(glfwGetTime() * 2.0f);
-		lightColour.y = sin(glfwGetTime() * 0.7f);
-		lightColour.z = sin(glfwGetTime() * 1.3f);
-		shaderList[0].SetVecThree("objectColor", objectColour);
-		shaderList[0].SetVecThree("lightColor", lightColour);
-		shaderList[0].SetVecThree("lightPos", lightPos);
-		shaderList[0].SetVecThree("viewPos", camera.position);
-		shaderList[0].SetVecThree("material.ambient", glm:: vec3(1.0f, 0.5f, 0.31f));
-		shaderList[0].SetVecThree("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-		shaderList[0].SetVecThree("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-
-
-		glm::vec3 diffuseColor = lightColour * glm::vec3(0.5f);
-		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-		shaderList[0].SetVecThree("light.ambient", ambientColor);
-		shaderList[0].SetVecThree("light.diffuse", diffuseColor); // darken diffuse light a bit
-		shaderList[0].SetVecThree("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-		shaderList[0].SetFloat("material.shininess", 32.0f);
-		mesh[0]->RenderMesh();
+		//lightColour.x = sin(glfwGetTime() * 2.0f);
+		//lightColour.y = sin(glfwGetTime() * 0.7f);
+		//lightColour.z = sin(glfwGetTime() * 1.3f);
 
 		model = glm::mat4(1.0f);
 
 		model = glm::translate(model, lightPos);
 		shaderList[1].UseShader();
 		shaderList[1].SetMatFour("view", view);
+		shaderList[1].SetVecThree("lightColor", lightColour);
 		shaderList[1].SetMatFour("projection", proj);
 		shaderList[1].SetMatFour("model", model);
 		mesh[1]->RenderMesh();
+		model = glm::mat4(1.0f);
+		shaderList[0].UseShader();
+		shaderList[0].SetMatFour("view", view);
+		shaderList[0].SetMatFour("projection", proj);
+		shaderList[0].SetMatFour("model", model);
+
+		glActiveTexture(GL_TEXTURE0);
+		textureOne.UseTexture();
+		glActiveTexture(GL_TEXTURE1);
+		textureTwo.UseTexture();
+		glActiveTexture(GL_TEXTURE2);
+		textureThree.UseTexture();
+
+		shaderList[0].SetVecThree("objectColor", objectColour);
+		shaderList[0].SetVecThree("lightColor", lightColour);
+		shaderList[0].SetVecThree("lightPos", lightPos);
+		shaderList[0].SetVecThree("viewPos", camera.position);
+		shaderList[0].SetInt("material.diffuseTexture", 0);
+		shaderList[0].SetInt("material.specTexture", 1);
+		shaderList[0].SetInt("material.emitTexture", 2);
+		shaderList[0].SetFloat("material.shininess", 32.0f);
+		shaderList[0].SetFloat("scrolling", scorllTime);
+		scorllTime += deltaTime * .1f;
+		if (scorllTime > 1) scorllTime = 0;
+		glm::vec3 diffuseColor = lightColour * glm::vec3(5.0f);
+		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+		shaderList[0].SetVecThree("light.ambient", glm::vec3(0.5f));
+		shaderList[0].SetVecThree("light.diffuse", glm::vec3(0.5f)); // darken diffuse light a bit
+		shaderList[0].SetVecThree("light.specular", glm::vec3(0.5f));
+		shaderList[0].SetFloat("material.shininess", 32.0f);
+		mesh[0]->RenderMesh();
+
+
 
 		//shaderList[0].SetMatFour("viewSpace", view);
 		//shaderList[0].SetMatFour("projectionSpace", proj);

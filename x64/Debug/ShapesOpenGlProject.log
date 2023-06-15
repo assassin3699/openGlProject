@@ -1,19 +1,4 @@
 ﻿  main.cpp
-C:\Users\New\source\repos\openGlProject\main.cpp(199,19): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\main.cpp(202,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\New\source\repos\openGlProject\main.cpp(228,22): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\New\source\repos\openGlProject\main.cpp(229,22): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\New\source\repos\openGlProject\main.cpp(230,22): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
+C:\Users\New\source\repos\openGlProject\main.cpp(206,19): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\New\source\repos\openGlProject\main.cpp(210,15): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
   ShapesOpenGlProject.vcxproj -> C:\Users\New\source\repos\openGlProject\x64\Debug\ShapesOpenGlProject.exe
