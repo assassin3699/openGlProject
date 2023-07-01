@@ -88,6 +88,13 @@ glm::vec3 cubePositions[] = {
 	glm::vec3(1.5f,  0.2f, -1.5f),
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
+
+glm::vec3 pointLightPositions[] = {
+	glm::vec3(0.7f,  0.2f,  2.0f),
+	glm::vec3(2.3f, -3.3f, -4.0f),
+	glm::vec3(-4.0f,  2.0f, -12.0f),
+	glm::vec3(0.0f,  0.0f, -3.0f)
+};
 //Shader Code
 
 unsigned int vertexShader;
@@ -177,7 +184,7 @@ int main() {
 	shaderList.push_back(*obj2);
 
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 10; i++) {
 		CreateObjects();
 	}
 	vertexColor = vec4(0.5, 0.0, 0.0, 1.0);
@@ -218,7 +225,7 @@ int main() {
 		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		//model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -241,38 +248,8 @@ int main() {
 		shaderList[1].SetVecThree("lightColor", lightColour);
 		shaderList[1].SetMatFour("projection", proj);
 		shaderList[1].SetMatFour("model", model);
-		mesh[1]->RenderMesh();
-		model = glm::mat4(1.0f);
-		shaderList[0].UseShader();
-		shaderList[0].SetMatFour("view", view);
-		shaderList[0].SetMatFour("projection", proj);
-		shaderList[0].SetMatFour("model", model);
-
-		glActiveTexture(GL_TEXTURE0);
-		textureOne.UseTexture();
-		glActiveTexture(GL_TEXTURE1);
-		textureTwo.UseTexture();
-		glActiveTexture(GL_TEXTURE2);
-		textureThree.UseTexture();
-
-		shaderList[0].SetVecThree("objectColor", objectColour);
-		shaderList[0].SetVecThree("lightColor", lightColour);
-		shaderList[0].SetVecThree("lightPos", lightPos);
-		shaderList[0].SetVecThree("viewPos", camera.position);
-		shaderList[0].SetInt("material.diffuseTexture", 0);
-		shaderList[0].SetInt("material.specTexture", 1);
-		shaderList[0].SetInt("material.emitTexture", 2);
-		shaderList[0].SetFloat("material.shininess", 32.0f);
-		shaderList[0].SetFloat("scrolling", scorllTime);
-		scorllTime += deltaTime * .1f;
-		if (scorllTime > 1) scorllTime = 0;
-		glm::vec3 diffuseColor = lightColour * glm::vec3(5.0f);
-		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-		shaderList[0].SetVecThree("light.ambient", glm::vec3(0.5f));
-		shaderList[0].SetVecThree("light.diffuse", glm::vec3(0.5f)); // darken diffuse light a bit
-		shaderList[0].SetVecThree("light.specular", glm::vec3(0.5f));
-		shaderList[0].SetFloat("material.shininess", 32.0f);
 		mesh[0]->RenderMesh();
+
 
 
 
@@ -304,21 +281,89 @@ int main() {
 		//shaderList[0].SetFloat("mixValue", currentScrollerValue);
 
 		//mesh[0]->RenderMesh();
-		//for (int i = 0; i < 10; i++) {
-		//	model = glm::mat4(1.0f);
-		//	model = glm::translate(model, cubePositions[i]);
-		//	float angle = 20.0f * i;
-		//	if ((i + 1) % 3 == 0 || i == 0) {
-		//		GLfloat t = glfwGetTime();
-		//		model = glm::rotate(model, t, glm::vec3(0.0, 0.0, 1.0));
-		//	}
-		//	else
-		//	{
-		//		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-		//	}
-		//	shaderList[0].SetMatFour("modelMatrix", model);
-		//	mesh[i]->RenderMesh();
-		//}
+		for (int i = 1; i < 10; i++) {
+			//model = glm::mat4(1.0f);
+			//model = glm::translate(model, cubePositions[i]);
+			//float angle = 20.0f * i;
+			//if ((i + 1) % 3 == 0 || i == 0) {
+			//	GLfloat t = glfwGetTime();
+			//	model = glm::rotate(model, t, glm::vec3(0.0, 0.0, 1.0));
+			//}
+			//else
+			//{
+			//	model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			//}
+			//shaderList[0].SetMatFour("modelMatrix", model);
+			//mesh[i]->RenderMesh();
+
+
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[i]);
+			float angle = 20.0f * i;
+			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			shaderList[0].UseShader();
+			shaderList[0].SetMatFour("view", view);
+			shaderList[0].SetMatFour("projection", proj);
+			shaderList[0].SetMatFour("model", model);
+
+			glActiveTexture(GL_TEXTURE0);
+			textureOne.UseTexture();
+			glActiveTexture(GL_TEXTURE1);
+			textureTwo.UseTexture();
+			glActiveTexture(GL_TEXTURE2);
+			textureThree.UseTexture();
+
+			shaderList[0].SetVecThree("objectColor", objectColour);
+			shaderList[0].SetVecThree("lightColor", lightColour);
+			shaderList[0].SetVecThree("lightPos", lightPos);
+			shaderList[0].SetVecThree("viewPos", camera.position);
+			shaderList[0].SetInt("material.diffuseTexture", 0);
+			shaderList[0].SetInt("material.specTexture", 1);
+			shaderList[0].SetInt("material.emitTexture", 2);
+			shaderList[0].SetFloat("material.shininess", 32.0f);
+			shaderList[0].SetFloat("scrolling", scorllTime);
+			scorllTime += deltaTime * .1f;
+			if (scorllTime > 1) scorllTime = 0;
+			glm::vec3 diffuseColor = lightColour * glm::vec3(5.0f);
+			glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+			for (int j = 0; j < 4; j++) {
+
+				//char buffer[64];
+				//sprintf_s(buffer, "pointLight[%j].position", j);
+				shaderList[0].SetVecThree("pointLight[0].position", pointLightPositions[0]);
+				//sprintf_s(buffer, "pointLight[%j].ambient", j);
+				shaderList[0].SetVecThree("pointLight[0].ambient", glm::vec3(0.5f));
+				//sprintf_s(buffer, "pointLight[%j].diffuse", j);
+				shaderList[0].SetVecThree("pointLight[0].diffuse", glm::vec3(1.5f));
+				//sprintf_s(buffer, "pointLight[%j].specular", j);// darken diffuse light a bit
+				shaderList[0].SetVecThree("pointLight[0].specular", glm::vec3(0.5f));
+				//sprintf_s(buffer, "pointLight[%j].constant", j);
+				shaderList[0].SetFloat("pointLight[0].constant", 1.0f);
+				//sprintf_s(buffer, "pointLight[%j].linear", j);
+				shaderList[0].SetFloat("pointLight[0].linear", 0.09f);
+				//sprintf_s(buffer, "pointLight[%j].quadratic", j);
+				shaderList[0].SetFloat("pointLight[0].quadratic", 0.032f);
+			}
+
+			shaderList[0].SetVecThree("spotLight.position", camera.position);
+			shaderList[0].SetVecThree("spotLight.direction", camera.front);
+			shaderList[0].SetFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+			shaderList[0].SetFloat("spotLight.outerCutOff", glm::cos(glm::radians(17.5f)));
+			shaderList[0].SetVecThree("spotLight.ambient", glm::vec3(0.5f));
+			shaderList[0].SetVecThree("spotLight.diffuse", glm::vec3(1.5f)); // darken diffuse light a bit
+			shaderList[0].SetVecThree("spotLight.specular", glm::vec3(0.5f));
+			shaderList[0].SetFloat("spotLight.constant", 1.0f);
+			shaderList[0].SetFloat("spotLight.linear", 0.09f);
+			shaderList[0].SetFloat("spotLight.quadratic", 0.032f);
+
+			//shaderList[0].SetVecThree("directionLight.direction", glm :: vec3(0.0f,-1.0f,0.0f));
+			//shaderList[0].SetVecThree("directionLight.ambient", glm::vec3(0.5f));
+			//shaderList[0].SetVecThree("directionLight.diffuse", glm::vec3(1.5f)); // darken diffuse light a bit
+			//shaderList[0].SetVecThree("directionLight.specular", glm::vec3(0.5f));
+
+			shaderList[0].SetFloat("material.shininess", 32.0f);
+			mesh[i]->RenderMesh();
+		}
 
 		glfwPollEvents();
 		glUseProgram(0);

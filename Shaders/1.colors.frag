@@ -10,43 +10,131 @@ struct Material {
   
 uniform Material material;
 
-uniform vec3 objectColor;
-uniform vec3 lightColor;
-uniform vec3 lightPos;  
 uniform vec3 viewPos;
 uniform float scrolling;
 
-struct Light {
-    vec3 position;  
+struct SpotLight {
+    vec3  position;
+    vec3  direction;
+    float cutOff;
+	float outerCutOff;
+	
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+	
+    float constant;
+    float linear;
+    float quadratic;
+}; 
+
+struct DirectionLight{
+	vec3 direction;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
 };
 
-uniform Light light;  
+struct PointLight{
+	vec3 position;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	float constant;
+    float linear;
+    float quadratic;
+};
+#define NR_POINT_LIGHTS 4  
+
+uniform DirectionLight directionLight;
+uniform PointLight pointLight[NR_POINT_LIGHTS];
+uniform SpotLight spotLight;  
 
 in vec3 Normal;  
 in vec3 FragPos;  
 in vec2 TexCoord;
 
-
-void main()
-{
-    float ambientStrength = 0.1;
-	float specularStrength = 1.0;
-    vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
-	
+vec3 CalculateDirectionLight(DirectionLight light, vec3 normal, vec3 viewDir ){
+	vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(lightPos - FragPos);  
+	vec3 lightDir = normalize(-light.direction);  
 	
 	float diff = max(dot(norm, lightDir), 0.0);
 	vec3 diffuse = (diff * vec3(texture(material.diffuseTexture, TexCoord))) * light.diffuse;
 	
-	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, norm);  
 	
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 	vec3 specular =  (vec3(texture(material.specTexture, TexCoord)) * spec )* light.specular;  
+	
+	return (ambient+ diffuse + specular);
+}
+
+vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 viewDir , vec3 fragPosition){
+
+	vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
+	vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(light.position - fragPosition);  
+	
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = (diff * vec3(texture(material.diffuseTexture, TexCoord))) * light.diffuse;
+	
+	vec3 reflectDir = reflect(-lightDir, norm);  
+	
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	vec3 specular =  (vec3(texture(material.specTexture, TexCoord)) * spec )* light.specular;  
+	
+	float distance    = length(light.position - fragPosition);
+	float attenuation = 1.0 / (light.constant + light.linear * distance + 
+    		    light.quadratic * (distance * distance)); 
+	specular *= attenuation;
+	ambient *= attenuation;
+	diffuse *= attenuation;
+	
+	return (ambient+ diffuse + specular);
+}
+
+vec3 ClaculateSpotLight(SpotLight light, vec3 normal, vec3 viewDir , vec3 fragPosition){
+	vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
+	vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(light.direction - fragPosition);  
+	
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = (diff * vec3(texture(material.diffuseTexture, TexCoord))) * light.diffuse;
+	
+	vec3 reflectDir = reflect(-lightDir, norm);  
+	
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	vec3 specular =  (vec3(texture(material.specTexture, TexCoord)) * spec )* light.specular;  
+	
+	float distance    = length(light.position - fragPosition);
+	float attenuation = 1.0 / (light.constant + light.linear * distance + 
+    		    light.quadratic * (distance * distance)); 
+	specular *= attenuation;
+	ambient *= attenuation;
+	diffuse *= attenuation;
+	
+	float theta = dot(lightDir, normalize(-light.direction));
+	float epsilon   = light.cutOff - light.outerCutOff;
+	float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0); 
+	
+	diffuse  *= intensity;
+	specular *= intensity;
+	
+	vec3 result = vec3(0.0);
+	if(theta > light.outerCutOff){
+		  result = (specular + ambient + diffuse );
+	}
+	return result;
+}
+
+void main()
+{
+	vec3 viewDir = normalize(FragPos - viewPos);
+	 vec3 result = vec3(0.0);
+
+	result += ClaculateSpotLight(spotLight,Normal,viewDir,FragPos);
+	
 	vec2 cordinate = TexCoord;
 	cordinate.y += scrolling;
 	vec3 colour = vec3(1.5f);
@@ -64,6 +152,6 @@ void main()
 	
 	vec3 emission= vec3(texture(material.emitTexture, cordinate)) *  colour;
 	
-    vec3 result = (specular + ambient + diffuse + emission);
+
     FragColor = vec4(result, 1.0);
 }
