@@ -184,7 +184,7 @@ int main() {
 	shaderList.push_back(*obj2);
 
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 14; i++) {
 		CreateObjects();
 	}
 	vertexColor = vec4(0.5, 0.0, 0.0, 1.0);
@@ -235,20 +235,23 @@ int main() {
 		proj = glm::perspective(glm::radians(mainWindow.getFOV()), (float)800 / (float)600, 0.1f, 100.0f);
 		view = camera.calculateViewMatrix();
 		glm::vec3 objectColour = glm::vec3(1.0f, 1.0f, 1.0f);
-		glm::vec3 lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
+		glm::vec3 lightColour = glm::vec3(1.0f, 0.0f, 0.0f);
 		//lightColour.x = sin(glfwGetTime() * 2.0f);
 		//lightColour.y = sin(glfwGetTime() * 0.7f);
 		//lightColour.z = sin(glfwGetTime() * 1.3f);
 
 		model = glm::mat4(1.0f);
+		
+		for (int i = 10; i < 14; i++) {
+			model = glm::translate(model, pointLightPositions[i - 10]);
+			shaderList[1].UseShader();
+			shaderList[1].SetMatFour("view", view);
+			shaderList[1].SetVecThree("lightColor", lightColour);
+			shaderList[1].SetMatFour("projection", proj);
+			shaderList[1].SetMatFour("model", model);
+			mesh[i]->RenderMesh();
+		}
 
-		model = glm::translate(model, lightPos);
-		shaderList[1].UseShader();
-		shaderList[1].SetMatFour("view", view);
-		shaderList[1].SetVecThree("lightColor", lightColour);
-		shaderList[1].SetMatFour("projection", proj);
-		shaderList[1].SetMatFour("model", model);
-		mesh[0]->RenderMesh();
 
 
 
@@ -281,7 +284,7 @@ int main() {
 		//shaderList[0].SetFloat("mixValue", currentScrollerValue);
 
 		//mesh[0]->RenderMesh();
-		for (int i = 1; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			//model = glm::mat4(1.0f);
 			//model = glm::translate(model, cubePositions[i]);
 			//float angle = 20.0f * i;
@@ -328,21 +331,21 @@ int main() {
 			glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
 			for (int j = 0; j < 4; j++) {
 
-				//char buffer[64];
-				//sprintf_s(buffer, "pointLight[%j].position", j);
-				shaderList[0].SetVecThree("pointLight[0].position", pointLightPositions[0]);
-				//sprintf_s(buffer, "pointLight[%j].ambient", j);
-				shaderList[0].SetVecThree("pointLight[0].ambient", glm::vec3(0.5f));
-				//sprintf_s(buffer, "pointLight[%j].diffuse", j);
-				shaderList[0].SetVecThree("pointLight[0].diffuse", glm::vec3(1.5f));
-				//sprintf_s(buffer, "pointLight[%j].specular", j);// darken diffuse light a bit
-				shaderList[0].SetVecThree("pointLight[0].specular", glm::vec3(0.5f));
-				//sprintf_s(buffer, "pointLight[%j].constant", j);
-				shaderList[0].SetFloat("pointLight[0].constant", 1.0f);
-				//sprintf_s(buffer, "pointLight[%j].linear", j);
-				shaderList[0].SetFloat("pointLight[0].linear", 0.09f);
-				//sprintf_s(buffer, "pointLight[%j].quadratic", j);
-				shaderList[0].SetFloat("pointLight[0].quadratic", 0.032f);
+				char buffer[100];
+				sprintf_s(buffer, "pointLight[%i].position", j);
+				shaderList[0].SetVecThree(buffer, pointLightPositions[0]);
+				sprintf_s(buffer, "pointLight[%i].ambient", j);
+				shaderList[0].SetVecThree(buffer, glm::vec3(0.01f));
+				sprintf_s(buffer, "pointLight[%i].diffuse", j);
+				shaderList[0].SetVecThree(buffer, glm::vec3(0.5f, 0.0f, 0.0f));
+				sprintf_s(buffer, "pointLight[%i].specular", j);// darken diffuse light a bit
+				shaderList[0].SetVecThree(buffer, glm::vec3(0.1f));
+				sprintf_s(buffer, "pointLight[%i].constant", j);
+				shaderList[0].SetFloat(buffer, 1.0f);
+				sprintf_s(buffer, "pointLight[%i].linear", j);
+				shaderList[0].SetFloat(buffer, 0.09f);
+				sprintf_s(buffer, "pointLight[%i].quadratic", j);
+				shaderList[0].SetFloat(buffer, 0.032f);
 			}
 
 			shaderList[0].SetVecThree("spotLight.position", camera.position);
@@ -356,10 +359,10 @@ int main() {
 			shaderList[0].SetFloat("spotLight.linear", 0.09f);
 			shaderList[0].SetFloat("spotLight.quadratic", 0.032f);
 
-			//shaderList[0].SetVecThree("directionLight.direction", glm :: vec3(0.0f,-1.0f,0.0f));
-			//shaderList[0].SetVecThree("directionLight.ambient", glm::vec3(0.5f));
-			//shaderList[0].SetVecThree("directionLight.diffuse", glm::vec3(1.5f)); // darken diffuse light a bit
-			//shaderList[0].SetVecThree("directionLight.specular", glm::vec3(0.5f));
+			shaderList[0].SetVecThree("directionLight.direction", glm :: vec3(0.0f,-1.0f,0.0f));
+			shaderList[0].SetVecThree("directionLight.ambient", glm::vec3(0.5f));
+			shaderList[0].SetVecThree("directionLight.diffuse", glm::vec3(0.5f)); // darken diffuse light a bit
+			shaderList[0].SetVecThree("directionLight.specular", glm::vec3(0.5f));
 
 			shaderList[0].SetFloat("material.shininess", 32.0f);
 			mesh[i]->RenderMesh();

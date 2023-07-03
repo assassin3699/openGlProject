@@ -56,7 +56,7 @@ in vec2 TexCoord;
 
 vec3 CalculateDirectionLight(DirectionLight light, vec3 normal, vec3 viewDir ){
 	vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
-	vec3 norm = normalize(Normal);
+	vec3 norm = normalize(normal);
 	vec3 lightDir = normalize(-light.direction);  
 	
 	float diff = max(dot(norm, lightDir), 0.0);
@@ -73,7 +73,7 @@ vec3 CalculateDirectionLight(DirectionLight light, vec3 normal, vec3 viewDir ){
 vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 viewDir , vec3 fragPosition){
 
 	vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
-	vec3 norm = normalize(Normal);
+	vec3 norm = normalize(normal);
 	vec3 lightDir = normalize(light.position - fragPosition);  
 	
 	float diff = max(dot(norm, lightDir), 0.0);
@@ -96,8 +96,8 @@ vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 viewDir , vec3 frag
 
 vec3 ClaculateSpotLight(SpotLight light, vec3 normal, vec3 viewDir , vec3 fragPosition){
 	vec3 ambient = vec3(texture(material.diffuseTexture, TexCoord))  * light.ambient;
-	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(light.direction - fragPosition);  
+	vec3 norm = normalize(normal);
+	vec3 lightDir = normalize(light.position - fragPosition);  
 	
 	float diff = max(dot(norm, lightDir), 0.0);
 	vec3 diffuse = (diff * vec3(texture(material.diffuseTexture, TexCoord))) * light.diffuse;
@@ -121,20 +121,20 @@ vec3 ClaculateSpotLight(SpotLight light, vec3 normal, vec3 viewDir , vec3 fragPo
 	diffuse  *= intensity;
 	specular *= intensity;
 	
-	vec3 result = vec3(0.0);
-	if(theta > light.outerCutOff){
-		  result = (specular + ambient + diffuse );
-	}
-	return result;
+	return  (specular + ambient + diffuse );
 }
 
 void main()
 {
 	vec3 viewDir = normalize(FragPos - viewPos);
-	 vec3 result = vec3(0.0);
-
-	result += ClaculateSpotLight(spotLight,Normal,viewDir,FragPos);
+	 vec3 result = CalculateDirectionLight(directionLight, Normal, viewDir);
 	
+	
+	for(int i = 0 ; i < NR_POINT_LIGHTS ; i++){
+		result += CalculatePointLight(pointLight[i],Normal,viewDir, FragPos);
+	}
+	vec3 spot = ClaculateSpotLight(spotLight,Normal,viewDir,FragPos);
+	result = result + spot;
 	vec2 cordinate = TexCoord;
 	cordinate.y += scrolling;
 	vec3 colour = vec3(1.5f);
