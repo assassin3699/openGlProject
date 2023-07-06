@@ -6,6 +6,11 @@
 #include <vector>
 #include <GL/glew.h>
 
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 // Include GLFW
 #include <GLFW/glfw3.h>
 

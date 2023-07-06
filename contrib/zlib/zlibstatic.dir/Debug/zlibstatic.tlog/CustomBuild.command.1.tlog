@@ -1,0 +1,10 @@
+^C:\USERS\NEW\DOWNLOADS\ASSIMP-MASTER\ASSIMP-MASTER\CONTRIB\ZLIB\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/New/Downloads/assimp-master/assimp-master -BC:/Users/New/Downloads/assimp-master/assimp-master --check-stamp-file C:/Users/New/Downloads/assimp-master/assimp-master/contrib/zlib/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
